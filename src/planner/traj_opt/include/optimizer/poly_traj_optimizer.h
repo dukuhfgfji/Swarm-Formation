@@ -65,7 +65,8 @@ namespace ego_planner
     enum FORMATION_TYPE
     {
       NONE_FORMATION        = 0,
-      REGULAR_HEXAGON       = 1
+      REGULAR_HEXAGON       = 1,
+      REGULAR_ELEVEN        = 11
     };
 
     /* optimization parameters */
@@ -217,6 +218,39 @@ namespace ego_planner
           swarm_des.push_back(v4);
           swarm_des.push_back(v5);
           swarm_des.push_back(v6);
+
+          formation_size_ = swarm_des.size();
+          // construct the desired swarm graph
+          swarm_graph_->setDesiredForm(swarm_des);
+          break;
+        }
+
+        case FORMATION_TYPE::REGULAR_ELEVEN :
+        {
+          // set the desired formation
+          Eigen::Vector3d v0(1.3, 2.25, 0);
+          Eigen::Vector3d v1(2.6, -1.5, 0);
+          Eigen::Vector3d v2(0, -3, 0);
+          Eigen::Vector3d v3(-2.6, -1.5, 0);
+          Eigen::Vector3d v4(-2.6, 1.5, 0);
+          Eigen::Vector3d v5(0, 3, 0);
+          Eigen::Vector3d v6(2.6, 1.5, 0);
+          Eigen::Vector3d v7(1.3, -2.25, 0);
+          Eigen::Vector3d v8(-1.3, -2.25, 0);
+          Eigen::Vector3d v9(-2.6, 0, 0);
+          Eigen::Vector3d v10(-1.3, 2.25, 0);
+
+          swarm_des.push_back(v0);
+          swarm_des.push_back(v1);
+          swarm_des.push_back(v2);
+          swarm_des.push_back(v3);
+          swarm_des.push_back(v4);
+          swarm_des.push_back(v5);
+          swarm_des.push_back(v6);
+          swarm_des.push_back(v7);
+          swarm_des.push_back(v8);
+          swarm_des.push_back(v9);
+          swarm_des.push_back(v10);
 
           formation_size_ = swarm_des.size();
           // construct the desired swarm graph

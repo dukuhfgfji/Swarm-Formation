@@ -785,6 +785,8 @@ namespace ego_planner
         planning_horizen_, start_pt_, end_pt_,
         local_target_pt_, local_target_vel_);
 
+    std::cout << end_pt_ << std::endl;
+
     Eigen::Vector3d desired_start_pt, desired_start_vel, desired_start_acc;
     double desired_start_time;
     if (have_local_traj_ && use_formation)

@@ -212,6 +212,18 @@ namespace ego_planner
       
       break;
     }
+
+    case FORMATION_TYPE::REGULAR_ELEVEN:
+    {
+      formation_size_ = 11;
+      line_size_      = 11;
+      line_begin_.resize(line_size_);
+      line_end_.resize(line_size_);
+      line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+      line_end_   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0};
+      
+      break;
+    }
     
     default:
       break;

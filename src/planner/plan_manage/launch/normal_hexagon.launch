@@ -5,7 +5,7 @@
 
     <arg name="odom_topic" value="visual_slam/odom" />
     
-    <arg name="formation_type" value="1" />
+    <arg name="formation_type" value="11" />
     
     <!-- swarm topic transmitter bridge-->
     <include file="$(find swarm_bridge)/launch/bridge.launch">
@@ -65,8 +65,8 @@
         <arg name="init_y" value="2.25"/>
         <arg name="init_z" value="0.5"/>
 
-        <arg name="target_x" value="26.0"/>
-        <arg name="target_y" value="0.0"/>
+        <arg name="target_x" value="25.3"/>
+        <arg name="target_y" value="2.25"/>
         <arg name="target_z" value="0.5"/>
 
         <arg name="map_size_x"              value="$(arg map_size_x)"/>
@@ -84,7 +84,7 @@
         <arg name="init_y" value="-1.5"/>
         <arg name="init_z" value="0.5"/>
 
-        <arg name="target_x" value="28.6"/>
+        <arg name="target_x" value="26.4"/>
         <arg name="target_y" value="-1.5"/>
         <arg name="target_z" value="0.5"/>
 
@@ -99,10 +99,10 @@
         <arg name="drone_id" value="2"/>
 
         <arg name="init_x" value="-26.0"/>
-        <arg name="init_y" value="-3"/>
+        <arg name="init_y" value="-3.0"/>
         <arg name="init_z" value="0.5"/>
 
-        <arg name="target_x" value="26.0"/>
+        <arg name="target_x" value="24.0"/>
         <arg name="target_y" value="-3.0"/>
         <arg name="target_z" value="0.5"/>
 
@@ -120,7 +120,7 @@
         <arg name="init_y" value="-1.5"/>
          <arg name="init_z" value="0.5"/>
 
-        <arg name="target_x" value="23.4"/>
+        <arg name="target_x" value="21.4"/>
         <arg name="target_y" value="-1.5"/>
         <arg name="target_z" value="0.5"/>
 
@@ -138,7 +138,7 @@
         <arg name="init_y" value="1.5"/>
          <arg name="init_z" value="0.5"/>
 
-        <arg name="target_x" value="23.4"/>
+        <arg name="target_x" value="21.4"/>
         <arg name="target_y" value="1.5"/>
         <arg name="target_z" value="0.5"/>
 
@@ -153,10 +153,10 @@
         <arg name="drone_id" value="5"/>
 
         <arg name="init_x" value="-26.0"/>
-        <arg name="init_y" value="3"/>
+        <arg name="init_y" value="3.0"/>
          <arg name="init_z" value="0.5"/>
 
-        <arg name="target_x" value="26.0"/>
+        <arg name="target_x" value="24.0"/>
         <arg name="target_y" value="3.0"/>
         <arg name="target_z" value="0.5"/>
 
@@ -174,7 +174,7 @@
         <arg name="init_y" value="1.5"/>
         <arg name="init_z" value="0.5"/>
         
-        <arg name="target_x" value="28.6"/>
+        <arg name="target_x" value="26.6"/>
         <arg name="target_y" value="1.5"/>
         <arg name="target_z" value="0.5"/>
         
@@ -191,8 +191,8 @@
         <arg name="init_y" value="-2.25"/>
         <arg name="init_z" value="0.5"/>
         
-        <arg name="target_x" value="28.6"/>
-        <arg name="target_y" value="1.5"/>
+        <arg name="target_x" value="25.3"/>
+        <arg name="target_y" value="-2.25"/>
         <arg name="target_z" value="0.5"/>
         
         <arg name="map_size_x"              value="$(arg map_size_x)"/>
@@ -208,8 +208,8 @@
         <arg name="init_y" value="-2.25"/>
         <arg name="init_z" value="0.5"/>
         
-        <arg name="target_x" value="28.6"/>
-        <arg name="target_y" value="1.5"/>
+        <arg name="target_x" value="22.7"/>
+        <arg name="target_y" value="-2.25"/>
         <arg name="target_z" value="0.5"/>
         
         <arg name="map_size_x"              value="$(arg map_size_x)"/>
@@ -225,8 +225,8 @@
         <arg name="init_y" value="0.0"/>
         <arg name="init_z" value="0.5"/>
         
-        <arg name="target_x" value="28.6"/>
-        <arg name="target_y" value="1.5"/>
+        <arg name="target_x" value="21.4"/>
+        <arg name="target_y" value="0.0"/>
         <arg name="target_z" value="0.5"/>
         
         <arg name="map_size_x"              value="$(arg map_size_x)"/>
@@ -242,8 +242,8 @@
         <arg name="init_y" value="2.25"/>
         <arg name="init_z" value="0.5"/>
         
-        <arg name="target_x" value="28.6"/>
-        <arg name="target_y" value="1.5"/>
+        <arg name="target_x" value="22.7"/>
+        <arg name="target_y" value="2.25"/>
         <arg name="target_z" value="0.5"/>
         
         <arg name="map_size_x"              value="$(arg map_size_x)"/>
