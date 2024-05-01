@@ -44,7 +44,11 @@ namespace ego_planner
     {
       NONE_FORMATION        = 0,
       REGULAR_HEXAGON       = 1,
-      REGULAR_ELEVEN        = 11
+      REGULAR_TWO           = 2,
+      REGULAR_THREE         = 3,
+      REGULAR_FOUR          = 4,
+      REGULAR_ELEVEN        = 11,
+      REGULAR_SIXTEEN       = 16
     };
 
     int drone_id_;
@@ -56,6 +60,7 @@ namespace ego_planner
     ros::Subscriber drone_0_odom_sub_, drone_1_odom_sub_, drone_2_odom_sub_, drone_3_odom_sub_; 
     ros::Subscriber drone_4_odom_sub_, drone_5_odom_sub_, drone_6_odom_sub_, drone_7_odom_sub_;
     ros::Subscriber drone_8_odom_sub_, drone_9_odom_sub_, drone_10_odom_sub_, drone_11_odom_sub_;
+    ros::Subscriber drone_12_odom_sub_, drone_13_odom_sub_, drone_14_odom_sub_, drone_15_odom_sub_;
 
     ros::Timer swarm_graph_visual_timer_;
     ros::Timer benchmark_recorder;
@@ -78,6 +83,10 @@ namespace ego_planner
     void drone_9_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
     void drone_10_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
     void drone_11_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
+    void drone_12_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
+    void drone_13_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
+    void drone_14_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
+    void drone_15_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
     
     void swarmGraphVisulCallback(const ros::TimerEvent &e);
     void benchmarkCallback(const ros::TimerEvent &e);

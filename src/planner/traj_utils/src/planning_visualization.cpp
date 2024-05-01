@@ -48,6 +48,10 @@ namespace ego_planner
     drone_9_odom_sub_ = nh.subscribe("/drone_9_visual_slam/odom", 1, &PlanningVisualization::drone_9_odomeCallback, this);
     drone_10_odom_sub_ = nh.subscribe("/drone_10_visual_slam/odom", 1, &PlanningVisualization::drone_10_odomeCallback, this);
     drone_11_odom_sub_ = nh.subscribe("/drone_11_visual_slam/odom", 1, &PlanningVisualization::drone_11_odomeCallback, this);
+    drone_12_odom_sub_ = nh.subscribe("/drone_12_visual_slam/odom", 1, &PlanningVisualization::drone_12_odomeCallback, this);
+    drone_13_odom_sub_ = nh.subscribe("/drone_13_visual_slam/odom", 1, &PlanningVisualization::drone_13_odomeCallback, this);
+    drone_14_odom_sub_ = nh.subscribe("/drone_14_visual_slam/odom", 1, &PlanningVisualization::drone_14_odomeCallback, this);
+    drone_15_odom_sub_ = nh.subscribe("/drone_15_visual_slam/odom", 1, &PlanningVisualization::drone_15_odomeCallback, this);
     
     
     if (drone_id_ == 0){
@@ -191,6 +195,34 @@ namespace ego_planner
     swarm_odom[11] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
+  void PlanningVisualization::drone_12_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
+    if (formation_size_ <=12 )
+      return;
+    
+    swarm_odom[12] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
+  }
+
+  void PlanningVisualization::drone_13_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
+    if (formation_size_ <=13 )
+      return;
+    
+    swarm_odom[13] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
+  }
+
+  void PlanningVisualization::drone_14_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
+    if (formation_size_ <=14 )
+      return;
+    
+    swarm_odom[14] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
+  }
+
+  void PlanningVisualization::drone_15_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
+    if (formation_size_ <=15 )
+      return;
+    
+    swarm_odom[15] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
+  }
+
   void PlanningVisualization::initSwarmGraphVisual(){
     switch (formation_type_)
     {
@@ -213,6 +245,42 @@ namespace ego_planner
       break;
     }
 
+    case FORMATION_TYPE::REGULAR_TWO:
+    {
+      formation_size_ = 2;
+      line_size_      = 2;
+      line_begin_.resize(line_size_);
+      line_end_.resize(line_size_);
+      line_begin_ = {0, 1};
+      line_end_   = {1, 0};
+      
+      break;
+    }
+
+    case FORMATION_TYPE::REGULAR_THREE:
+    {
+      formation_size_ = 3;
+      line_size_      = 3;
+      line_begin_.resize(line_size_);
+      line_end_.resize(line_size_);
+      line_begin_ = {0, 1, 2};
+      line_end_   = {1, 2, 0};
+      
+      break;
+    }
+
+    case FORMATION_TYPE::REGULAR_FOUR:
+    {
+      formation_size_ = 4;
+      line_size_      = 4;
+      line_begin_.resize(line_size_);
+      line_end_.resize(line_size_);
+      line_begin_ = {0, 1, 2, 3};
+      line_end_   = {1, 2, 3, 0};
+      
+      break;
+    }
+
     case FORMATION_TYPE::REGULAR_ELEVEN:
     {
       formation_size_ = 11;
@@ -221,6 +289,18 @@ namespace ego_planner
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
       line_end_   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0};
+      
+      break;
+    }
+
+    case FORMATION_TYPE::REGULAR_SIXTEEN:
+    {
+      formation_size_ = 16;
+      line_size_      = 16;
+      line_begin_.resize(line_size_);
+      line_end_.resize(line_size_);
+      line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+      line_end_   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
       
       break;
     }

@@ -13,6 +13,8 @@
 #include <swarm_graph/swarm_graph.hpp>
 #include <fstream>
 
+#define FR 5   // formation radius
+
 namespace ego_planner
 {
 
@@ -21,7 +23,7 @@ namespace ego_planner
   public:
     int cp_size; // deformation points
     Eigen::MatrixXd points;
-    
+
     void resize_cp(const int size_set)
     {
       cp_size = size_set;
@@ -34,7 +36,7 @@ namespace ego_planner
 
   class PolyTrajOptimizer
   {
-  
+
   private:
     GridMap::Ptr grid_map_;
     AStar::Ptr a_star_;
@@ -44,10 +46,10 @@ namespace ego_planner
     SwarmGraph::Ptr swarm_graph_;
 
     int drone_id_;
-    int cps_num_prePiece_; // number of distinctive constrain points each piece
-    int variable_num_;     // optimization variables
-    int piece_num_;        // poly traj piece numbers
-    int iter_num_;         // iteration of the solver
+    int cps_num_prePiece_;   // number of distinctive constrain points each piece
+    int variable_num_;       // optimization variables
+    int piece_num_;          // poly traj piece numbers
+    int iter_num_;           // iteration of the solver
     double min_ellip_dist2_; // min trajectory distance in swarm
 
     string result_fn_;
@@ -64,32 +66,35 @@ namespace ego_planner
 
     enum FORMATION_TYPE
     {
-      NONE_FORMATION        = 0,
-      REGULAR_HEXAGON       = 1,
-      REGULAR_ELEVEN        = 11
+      NONE_FORMATION = 0,
+      REGULAR_HEXAGON = 1,
+      REGULAR_TWO = 2,
+      REGULAR_THREE = 3,
+      REGULAR_FOUR = 4,
+      REGULAR_ELEVEN = 11,
+      REGULAR_SIXTEEN = 16,
     };
 
     /* optimization parameters */
-    double wei_obs_;                         // obstacle weight
-    double wei_swarm_;                       // swarm weight
-    double wei_feas_;                        // feasibility weight
-    double wei_sqrvar_;                      // squared variance weight
-    double wei_time_;                        // time weight
-    double wei_formation_;                   // swarm formation simllarity
-    
-    double obs_clearance_;                   // safe distance between uav and obstacles
-    double swarm_clearance_;                 // safe distance between uav and uav
-    double max_vel_, max_acc_;               // dynamic limits
-    
-    int    formation_type_;
-    int    formation_size_;
-    bool   use_formation_ = true;
-    bool   is_other_assigning_ = false;
+    double wei_obs_;       // obstacle weight
+    double wei_swarm_;     // swarm weight
+    double wei_feas_;      // feasibility weight
+    double wei_sqrvar_;    // squared variance weight
+    double wei_time_;      // time weight
+    double wei_formation_; // swarm formation simllarity
+
+    double obs_clearance_;     // safe distance between uav and obstacles
+    double swarm_clearance_;   // safe distance between uav and uav
+    double max_vel_, max_acc_; // dynamic limits
+
+    int formation_type_;
+    int formation_size_;
+    bool use_formation_ = true;
+    bool is_other_assigning_ = false;
 
     double t_now_;
 
   public:
-
     PolyTrajOptimizer() {}
     ~PolyTrajOptimizer() {}
 
@@ -110,17 +115,15 @@ namespace ego_planner
 
     /* main planning API */
     bool OptimizeTrajectory_lbfgs(const Eigen::MatrixXd &iniState, const Eigen::MatrixXd &finState,
-                            const Eigen::MatrixXd &initInnerPts, const Eigen::VectorXd &initT,
-                            Eigen::MatrixXd &optimal_points, const bool use_formation);
-                                            
-    void astarWithMinTraj( const Eigen::MatrixXd &iniState, 
-                           const Eigen::MatrixXd &finState,
-                           std::vector<Eigen::Vector3d> &simple_path,
-                           Eigen::MatrixXd &ctl_points,
-                           poly_traj::MinJerkOpt &frontendMJ);
-  
-  
-  
+                                  const Eigen::MatrixXd &initInnerPts, const Eigen::VectorXd &initT,
+                                  Eigen::MatrixXd &optimal_points, const bool use_formation);
+
+    void astarWithMinTraj(const Eigen::MatrixXd &iniState,
+                          const Eigen::MatrixXd &finState,
+                          std::vector<Eigen::Vector3d> &simple_path,
+                          Eigen::MatrixXd &ctl_points,
+                          poly_traj::MinJerkOpt &frontendMJ);
+
   private:
     /* callbacks by the L-BFGS optimizer */
     static double costFunctionCallback(void *func_data, const double *x, double *grad, const int n);
@@ -149,10 +152,10 @@ namespace ego_planner
     void addPVAGradCost2CT(EIGENVEC &gdT, Eigen::VectorXd &costs, const int &K);
 
     bool obstacleGradCostP(const int i_dp,
-                              const Eigen::Vector3d &p,
-                              Eigen::Vector3d &gradp,
-                              double &costp);
-    
+                           const Eigen::Vector3d &p,
+                           Eigen::Vector3d &gradp,
+                           double &costp);
+
     bool swarmGradCostP(const int i_dp,
                         const double t,
                         const Eigen::Vector3d &p,
@@ -170,7 +173,7 @@ namespace ego_planner
                              double &gradt,
                              double &grad_prev_t,
                              double &costp);
-    
+
     bool feasibilityGradCostV(const Eigen::Vector3d &v,
                               Eigen::Vector3d &gradv,
                               double &costv);
@@ -182,92 +185,184 @@ namespace ego_planner
     void distanceSqrVarianceWithGradCost2p(const Eigen::MatrixXd &ps,
                                            Eigen::MatrixXd &gdp,
                                            double &var);
-    
+
     void showFormationInformation(bool is_show, Eigen::Vector3d pos);
 
     bool checkCollision(void);
 
     bool getFormationPos(std::vector<Eigen::Vector3d> &swarm_graph_pos, Eigen::Vector3d pos);
 
-    void setDesiredFormation(int type){
+    void setDesiredFormation(int type)
+    {
       std::vector<Eigen::Vector3d> swarm_des;
       switch (type)
       {
-        case FORMATION_TYPE::NONE_FORMATION :
-        {
-          use_formation_  = false;
-          formation_size_ = 0;
-          break;
-        }
+      case FORMATION_TYPE::NONE_FORMATION:
+      {
+        use_formation_ = false;
+        formation_size_ = 0;
+        break;
+      }
 
-        case FORMATION_TYPE::REGULAR_HEXAGON :
-        {
-          // set the desired formation
-          Eigen::Vector3d v0(0,0,0);
-          Eigen::Vector3d v1(1.7321,-1,0);
-          Eigen::Vector3d v2(0,-2,0);
-          Eigen::Vector3d v3(-1.7321,-1,0);
-          Eigen::Vector3d v4(-1.7321,1,0);
-          Eigen::Vector3d v5(0,2,0);
-          Eigen::Vector3d v6(1.7321,1,0);
+      case FORMATION_TYPE::REGULAR_HEXAGON:
+      {
+        // set the desired formation
+        Eigen::Vector3d v0(0, 0, 0);
+        Eigen::Vector3d v1(1.7321, -1, 0);
+        Eigen::Vector3d v2(0, -2, 0);
+        Eigen::Vector3d v3(-1.7321, -1, 0);
+        Eigen::Vector3d v4(-1.7321, 1, 0);
+        Eigen::Vector3d v5(0, 2, 0);
+        Eigen::Vector3d v6(1.7321, 1, 0);
 
-          swarm_des.push_back(v0);
-          swarm_des.push_back(v1);
-          swarm_des.push_back(v2);
-          swarm_des.push_back(v3);
-          swarm_des.push_back(v4);
-          swarm_des.push_back(v5);
-          swarm_des.push_back(v6);
+        swarm_des.push_back(v0);
+        swarm_des.push_back(v1);
+        swarm_des.push_back(v2);
+        swarm_des.push_back(v3);
+        swarm_des.push_back(v4);
+        swarm_des.push_back(v5);
+        swarm_des.push_back(v6);
 
-          formation_size_ = swarm_des.size();
-          // construct the desired swarm graph
-          swarm_graph_->setDesiredForm(swarm_des);
-          break;
-        }
+        formation_size_ = swarm_des.size();
+        // construct the desired swarm graph
+        swarm_graph_->setDesiredForm(swarm_des);
+        break;
+      }
 
-        case FORMATION_TYPE::REGULAR_ELEVEN :
-        {
-          // set the desired formation
-          Eigen::Vector3d v0(1.3, 2.25, 0);
-          Eigen::Vector3d v1(2.6, -1.5, 0);
-          Eigen::Vector3d v2(0, -3, 0);
-          Eigen::Vector3d v3(-2.6, -1.5, 0);
-          Eigen::Vector3d v4(-2.6, 1.5, 0);
-          Eigen::Vector3d v5(0, 3, 0);
-          Eigen::Vector3d v6(2.6, 1.5, 0);
-          Eigen::Vector3d v7(1.3, -2.25, 0);
-          Eigen::Vector3d v8(-1.3, -2.25, 0);
-          Eigen::Vector3d v9(-2.6, 0, 0);
-          Eigen::Vector3d v10(-1.3, 2.25, 0);
+      case FORMATION_TYPE::REGULAR_TWO:
+      {
+        // set the desired formation
+        Eigen::Vector3d v0(1.3, 2.25, 0);
+        Eigen::Vector3d v1(2.6, -1.5, 0);
 
-          swarm_des.push_back(v0);
-          swarm_des.push_back(v1);
-          swarm_des.push_back(v2);
-          swarm_des.push_back(v3);
-          swarm_des.push_back(v4);
-          swarm_des.push_back(v5);
-          swarm_des.push_back(v6);
-          swarm_des.push_back(v7);
-          swarm_des.push_back(v8);
-          swarm_des.push_back(v9);
-          swarm_des.push_back(v10);
+        swarm_des.push_back(v0);
+        swarm_des.push_back(v1);
 
-          formation_size_ = swarm_des.size();
-          // construct the desired swarm graph
-          swarm_graph_->setDesiredForm(swarm_des);
-          break;
-        }
+        formation_size_ = swarm_des.size();
+        // construct the desired swarm graph
+        swarm_graph_->setDesiredForm(swarm_des);
+        break;
+      }
 
-        default:
-          break;
+      case FORMATION_TYPE::REGULAR_THREE:
+      {
+        // set the desired formation
+        Eigen::Vector3d v0(1.3, 2.25, 0);
+        Eigen::Vector3d v1(2.6, -1.5, 0);
+        Eigen::Vector3d v2(0, -3, 0);
+
+        swarm_des.push_back(v0);
+        swarm_des.push_back(v1);
+        swarm_des.push_back(v2);
+
+        formation_size_ = swarm_des.size();
+        // construct the desired swarm graph
+        swarm_graph_->setDesiredForm(swarm_des);
+        break;
+      }
+
+      case FORMATION_TYPE::REGULAR_FOUR:
+      {
+        // set the desired formation
+        Eigen::Vector3d v0(1.3, 2.25, 0);
+        Eigen::Vector3d v1(2.6, -1.5, 0);
+        Eigen::Vector3d v2(0, -3, 0);
+        Eigen::Vector3d v3(-2.6, -1.5, 0);
+
+        swarm_des.push_back(v0);
+        swarm_des.push_back(v1);
+        swarm_des.push_back(v2);
+        swarm_des.push_back(v3);
+
+        formation_size_ = swarm_des.size();
+        // construct the desired swarm graph
+        swarm_graph_->setDesiredForm(swarm_des);
+        break;
+      }
+
+      case FORMATION_TYPE::REGULAR_ELEVEN:
+      {
+        // set the desired formation
+        Eigen::Vector3d v0(1.3, 2.25, 0);
+        Eigen::Vector3d v1(2.6, -1.5, 0);
+        Eigen::Vector3d v2(0, -3, 0);
+        Eigen::Vector3d v3(-2.6, -1.5, 0);
+        Eigen::Vector3d v4(-2.6, 1.5, 0);
+        Eigen::Vector3d v5(0, 3, 0);
+        Eigen::Vector3d v6(2.6, 1.5, 0);
+        Eigen::Vector3d v7(1.3, -2.25, 0);
+        Eigen::Vector3d v8(-1.3, -2.25, 0);
+        Eigen::Vector3d v9(-2.6, 0, 0);
+        Eigen::Vector3d v10(-1.3, 2.25, 0);
+
+        swarm_des.push_back(v0);
+        swarm_des.push_back(v1);
+        swarm_des.push_back(v2);
+        swarm_des.push_back(v3);
+        swarm_des.push_back(v4);
+        swarm_des.push_back(v5);
+        swarm_des.push_back(v6);
+        swarm_des.push_back(v7);
+        swarm_des.push_back(v8);
+        swarm_des.push_back(v9);
+        swarm_des.push_back(v10);
+
+        formation_size_ = swarm_des.size();
+        // construct the desired swarm graph
+        swarm_graph_->setDesiredForm(swarm_des);
+        break;
+      }
+
+      case FORMATION_TYPE::REGULAR_SIXTEEN:
+      {
+        // set the desired formation
+        Eigen::Vector3d v0(FR, 0, 0);
+        Eigen::Vector3d v1(0, FR, 0);
+        Eigen::Vector3d v2(-FR, 0, 0);
+        Eigen::Vector3d v3(0, -FR, 0);
+        Eigen::Vector3d v4(FR*cos(M_PI/8), FR*sin(M_PI/8), 0);
+        Eigen::Vector3d v5(-FR*sin(M_PI/8), FR*cos(M_PI/8), 0);
+        Eigen::Vector3d v6(-FR*cos(M_PI/8), -FR*sin(M_PI/8), 0);
+        Eigen::Vector3d v7(FR*sin(M_PI/8), -FR*cos(M_PI/8), 0);
+        Eigen::Vector3d v8(FR*cos(M_PI/4), FR*sin(M_PI/4), 0);
+        Eigen::Vector3d v9(-FR*cos(M_PI/4), FR*sin(M_PI/4), 0);
+        Eigen::Vector3d v10(-FR*cos(M_PI/4), -FR*sin(M_PI/4), 0);
+        Eigen::Vector3d v11(FR*cos(M_PI/4), -FR*sin(M_PI/4), 0);
+        Eigen::Vector3d v12(FR*cos(M_PI/8), FR*sin(M_PI/8), 0);
+        Eigen::Vector3d v13(-FR*cos(M_PI/8), FR*sin(M_PI/8), 0);
+        Eigen::Vector3d v14(-FR*cos(M_PI/8), -FR*sin(M_PI/8), 0);
+        Eigen::Vector3d v15(FR*cos(M_PI/8), -FR*sin(M_PI/8), 0);
+
+        swarm_des.push_back(v0);
+        swarm_des.push_back(v1);
+        swarm_des.push_back(v2);
+        swarm_des.push_back(v3);
+        swarm_des.push_back(v4);
+        swarm_des.push_back(v5);
+        swarm_des.push_back(v6);
+        swarm_des.push_back(v7);
+        swarm_des.push_back(v8);
+        swarm_des.push_back(v9);
+        swarm_des.push_back(v10);
+        swarm_des.push_back(v11);
+        swarm_des.push_back(v12);
+        swarm_des.push_back(v13);
+        swarm_des.push_back(v14);
+        swarm_des.push_back(v15);
+
+        formation_size_ = swarm_des.size();
+        // construct the desired swarm graph
+        swarm_graph_->setDesiredForm(swarm_des);
+        break;
+      }
+
+      default:
+        break;
       }
     }
 
   public:
-
-
     typedef unique_ptr<PolyTrajOptimizer> Ptr;
-
   };
 
 } // namespace ego_planner
