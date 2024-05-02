@@ -300,7 +300,7 @@ namespace ego_planner
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-      line_end_   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
+      line_end_   = {1, 2, 3, 0, 5, 6, 7, 4, 9, 10, 11, 8, 13, 14, 15, 12};
       
       break;
     }
