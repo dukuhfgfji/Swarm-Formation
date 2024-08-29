@@ -315,7 +315,7 @@ int main(int argc, char **argv)
   ros::Subscriber poly_traj_sub = nh.subscribe("planning/trajectory", 10, polyTrajCallback);
   ros::Subscriber reached_sub = nh.subscribe("planning/finish", 10, finishCallback);
   ros::Subscriber start_sub = nh.subscribe("planning/start", 10, startCallback);
-  pos_cmd_pub = nh.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
+  pos_cmd_pub = nh.advertise<quadrotor_msgs::PositionCommand>("position_cmd", 50);
   
 
   ros::Timer cmd_timer = nh.createTimer(ros::Duration(0.01), cmdCallback);

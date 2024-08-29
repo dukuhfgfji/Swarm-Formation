@@ -8,7 +8,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "quad_sim_example");
   ros::NodeHandle nh("~");
 
-  ros::Publisher cmd_pub = nh.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 10);
+  ros::Publisher cmd_pub = nh.advertise<quadrotor_msgs::PositionCommand>("position_cmd", 10);
 
   ros::Duration(2.0).sleep();
 

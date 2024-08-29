@@ -33,7 +33,7 @@ uniform_real_distribution<double> rand_inf;
 
 ros::Publisher _local_map_pub;
 ros::Publisher _all_map_pub;
-ros::Publisher click_map_pub_;
+// ros::Publisher click_map_pub_;
 ros::Subscriber _odom_sub;
 
 vector<double> _state;
@@ -339,45 +339,45 @@ void FixMapGenerate(){
   ROS_WARN("Finished generate fixed map ");
 }
 
-void clickCallback(const geometry_msgs::PoseStamped &msg)
-{
-  double x = msg.pose.position.x;
-  double y = msg.pose.position.y;
-  double w = rand_w(eng);
-  double h;
-  pcl::PointXYZ pt_random;
+// void clickCallback(const geometry_msgs::PoseStamped &msg)
+// {
+//   double x = msg.pose.position.x;
+//   double y = msg.pose.position.y;
+//   double w = rand_w(eng);
+//   double h;
+//   pcl::PointXYZ pt_random;
 
-  x = floor(x / _resolution) * _resolution + _resolution / 2.0;
-  y = floor(y / _resolution) * _resolution + _resolution / 2.0;
+//   x = floor(x / _resolution) * _resolution + _resolution / 2.0;
+//   y = floor(y / _resolution) * _resolution + _resolution / 2.0;
 
-  int widNum = ceil(w / _resolution);
+//   int widNum = ceil(w / _resolution);
 
-  for (int r = -widNum / 2.0; r < widNum / 2.0; r++)
-    for (int s = -widNum / 2.0; s < widNum / 2.0; s++)
-    {
-      h = rand_h(eng);
-      int heiNum = ceil(h / _resolution);
-      for (int t = -1; t < heiNum; t++)
-      {
-        pt_random.x = x + (r + 0.5) * _resolution + 1e-2;
-        pt_random.y = y + (s + 0.5) * _resolution + 1e-2;
-        pt_random.z = (t + 0.5) * _resolution + 1e-2;
-        clicked_cloud_.points.push_back(pt_random);
-        cloudMap.points.push_back(pt_random);
-      }
-    }
-  clicked_cloud_.width = clicked_cloud_.points.size();
-  clicked_cloud_.height = 1;
-  clicked_cloud_.is_dense = true;
+//   for (int r = -widNum / 2.0; r < widNum / 2.0; r++)
+//     for (int s = -widNum / 2.0; s < widNum / 2.0; s++)
+//     {
+//       h = rand_h(eng);
+//       int heiNum = ceil(h / _resolution);
+//       for (int t = -1; t < heiNum; t++)
+//       {
+//         pt_random.x = x + (r + 0.5) * _resolution + 1e-2;
+//         pt_random.y = y + (s + 0.5) * _resolution + 1e-2;
+//         pt_random.z = (t + 0.5) * _resolution + 1e-2;
+//         clicked_cloud_.points.push_back(pt_random);
+//         cloudMap.points.push_back(pt_random);
+//       }
+//     }
+//   clicked_cloud_.width = clicked_cloud_.points.size();
+//   clicked_cloud_.height = 1;
+//   clicked_cloud_.is_dense = true;
 
-  pcl::toROSMsg(clicked_cloud_, localMap_pcd);
-  localMap_pcd.header.frame_id = "world";
-  click_map_pub_.publish(localMap_pcd);
+//   pcl::toROSMsg(clicked_cloud_, localMap_pcd);
+//   localMap_pcd.header.frame_id = "world";
+//   click_map_pub_.publish(localMap_pcd);
 
-  cloudMap.width = cloudMap.points.size();
+//   cloudMap.width = cloudMap.points.size();
 
-  return;
-}
+//   return;
+// }
 
 int i = 0;
 void pubPoints()
@@ -402,8 +402,7 @@ int main(int argc, char **argv)
   _local_map_pub = n.advertise<sensor_msgs::PointCloud2>("/map_generator/local_cloud", 1);
   _all_map_pub = n.advertise<sensor_msgs::PointCloud2>("/map_generator/global_cloud", 1);
 
-  click_map_pub_ =
-      n.advertise<sensor_msgs::PointCloud2>("/pcl_render_node/local_map", 1);
+  // click_map_pub_ = n.advertise<sensor_msgs::PointCloud2>("/pcl_render_node/local_map", 1);
 
   n.param("map/x_size", _x_size, 50.0);
   n.param("map/y_size", _y_size, 50.0);

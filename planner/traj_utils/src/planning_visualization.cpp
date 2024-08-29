@@ -36,22 +36,22 @@ namespace ego_planner
     for (int i=0; i<formation_size_; i++)
       swarm_odom[i] = Eigen::Vector3d::Zero();
     
-    drone_0_odom_sub_ = nh.subscribe("/drone_0_visual_slam/odom", 1, &PlanningVisualization::drone_0_odomeCallback, this);
-    drone_1_odom_sub_ = nh.subscribe("/drone_1_visual_slam/odom", 1, &PlanningVisualization::drone_1_odomeCallback, this);
-    drone_2_odom_sub_ = nh.subscribe("/drone_2_visual_slam/odom", 1, &PlanningVisualization::drone_2_odomeCallback, this);
-    drone_3_odom_sub_ = nh.subscribe("/drone_3_visual_slam/odom", 1, &PlanningVisualization::drone_3_odomeCallback, this);
-    drone_4_odom_sub_ = nh.subscribe("/drone_4_visual_slam/odom", 1, &PlanningVisualization::drone_4_odomeCallback, this);
-    drone_5_odom_sub_ = nh.subscribe("/drone_5_visual_slam/odom", 1, &PlanningVisualization::drone_5_odomeCallback, this);
-    drone_6_odom_sub_ = nh.subscribe("/drone_6_visual_slam/odom", 1, &PlanningVisualization::drone_6_odomeCallback, this);
-    drone_7_odom_sub_ = nh.subscribe("/drone_7_visual_slam/odom", 1, &PlanningVisualization::drone_7_odomeCallback, this);
-    drone_8_odom_sub_ = nh.subscribe("/drone_8_visual_slam/odom", 1, &PlanningVisualization::drone_8_odomeCallback, this);
-    drone_9_odom_sub_ = nh.subscribe("/drone_9_visual_slam/odom", 1, &PlanningVisualization::drone_9_odomeCallback, this);
-    drone_10_odom_sub_ = nh.subscribe("/drone_10_visual_slam/odom", 1, &PlanningVisualization::drone_10_odomeCallback, this);
-    drone_11_odom_sub_ = nh.subscribe("/drone_11_visual_slam/odom", 1, &PlanningVisualization::drone_11_odomeCallback, this);
-    drone_12_odom_sub_ = nh.subscribe("/drone_12_visual_slam/odom", 1, &PlanningVisualization::drone_12_odomeCallback, this);
-    drone_13_odom_sub_ = nh.subscribe("/drone_13_visual_slam/odom", 1, &PlanningVisualization::drone_13_odomeCallback, this);
-    drone_14_odom_sub_ = nh.subscribe("/drone_14_visual_slam/odom", 1, &PlanningVisualization::drone_14_odomeCallback, this);
-    drone_15_odom_sub_ = nh.subscribe("/drone_15_visual_slam/odom", 1, &PlanningVisualization::drone_15_odomeCallback, this);
+    drone_0_odom_sub_ = nh.subscribe("/drone_0/visual_slam/odom", 1, &PlanningVisualization::drone_0_odomeCallback, this);
+    drone_1_odom_sub_ = nh.subscribe("/drone_1/visual_slam/odom", 1, &PlanningVisualization::drone_1_odomeCallback, this);
+    drone_2_odom_sub_ = nh.subscribe("/drone_2/visual_slam/odom", 1, &PlanningVisualization::drone_2_odomeCallback, this);
+    drone_3_odom_sub_ = nh.subscribe("/drone_3/visual_slam/odom", 1, &PlanningVisualization::drone_3_odomeCallback, this);
+    drone_4_odom_sub_ = nh.subscribe("/drone_4/visual_slam/odom", 1, &PlanningVisualization::drone_4_odomeCallback, this);
+    drone_5_odom_sub_ = nh.subscribe("/drone_5/visual_slam/odom", 1, &PlanningVisualization::drone_5_odomeCallback, this);
+    drone_6_odom_sub_ = nh.subscribe("/drone_6/visual_slam/odom", 1, &PlanningVisualization::drone_6_odomeCallback, this);
+    drone_7_odom_sub_ = nh.subscribe("/drone_7/visual_slam/odom", 1, &PlanningVisualization::drone_7_odomeCallback, this);
+    drone_8_odom_sub_ = nh.subscribe("/drone_8/visual_slam/odom", 1, &PlanningVisualization::drone_8_odomeCallback, this);
+    drone_9_odom_sub_ = nh.subscribe("/drone_9/visual_slam/odom", 1, &PlanningVisualization::drone_9_odomeCallback, this);
+    drone_10_odom_sub_ = nh.subscribe("/drone_10/visual_slam/odom", 1, &PlanningVisualization::drone_10_odomeCallback, this);
+    drone_11_odom_sub_ = nh.subscribe("/drone_11/visual_slam/odom", 1, &PlanningVisualization::drone_11_odomeCallback, this);
+    drone_12_odom_sub_ = nh.subscribe("/drone_12/visual_slam/odom", 1, &PlanningVisualization::drone_12_odomeCallback, this);
+    drone_13_odom_sub_ = nh.subscribe("/drone_13/visual_slam/odom", 1, &PlanningVisualization::drone_13_odomeCallback, this);
+    drone_14_odom_sub_ = nh.subscribe("/drone_14/visual_slam/odom", 1, &PlanningVisualization::drone_14_odomeCallback, this);
+    drone_15_odom_sub_ = nh.subscribe("/drone_15/visual_slam/odom", 1, &PlanningVisualization::drone_15_odomeCallback, this);
     
     
     if (drone_id_ == 0){
