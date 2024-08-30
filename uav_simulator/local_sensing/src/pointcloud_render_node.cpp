@@ -153,7 +153,7 @@ void renderSensedPoints(const ros::TimerEvent &event)
   }
   else
   {
-    ROS_WARN("No point");
+    // ROS_WARN("No point");
     return;
   }
 

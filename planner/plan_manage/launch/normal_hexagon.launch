@@ -10,10 +10,10 @@
   <arg name="formation_type" value="16" />
 
   <!-- swarm topic transmitter bridge-->
-  <!-- <include file="$(find swarm_bridge)/launch/bridge.launch">
+  <include file="$(find swarm_bridge)/launch/bridge.launch">
     <arg name="drone_id" value="999"/>
     <arg name="broadcast_ip" value="127.0.0.255"/>
-  </include> -->
+  </include>
 
   <!-- map -->
   <node pkg ="map_generator" name ="random_forest" type ="random_forest" output = "screen">
