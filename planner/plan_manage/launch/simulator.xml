@@ -21,6 +21,7 @@
         <param name="simulator/init_state_z" value="$(arg init_z_)"/>
 
         <remap from="~odom" to="visual_slam/odom"/>
+        <remap from="~imu" to="visual_slam/imu"/>
         <remap from="~cmd" to="so3_cmd"/>
         <remap from="~force_disturbance" to="force_disturbance"/>    
         <remap from="~moment_disturbance" to="moment_disturbance"/>        
