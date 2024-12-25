@@ -293,8 +293,10 @@ void cmdCallback(const ros::TimerEvent &e)
   cmd.acceleration.y = acc(1);
   cmd.acceleration.z = acc(2);
 
-  cmd.yaw = yaw_yawdot.first;
-  cmd.yaw_dot = yaw_yawdot.second;
+  // cmd.yaw = yaw_yawdot.first;
+  // cmd.yaw_dot = yaw_yawdot.second;
+  cmd.yaw = 0;
+  cmd.yaw_dot = 0;
 
   last_yaw_ = cmd.yaw;
 
