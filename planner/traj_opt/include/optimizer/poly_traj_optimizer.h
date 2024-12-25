@@ -13,7 +13,7 @@
 #include <swarm_graph/swarm_graph.hpp>
 #include <fstream>
 
-#define FR 5   // formation radius
+#define FR 5 // formation radius
 
 namespace ego_planner
 {
@@ -316,39 +316,12 @@ namespace ego_planner
       case FORMATION_TYPE::REGULAR_SIXTEEN:
       {
         // set the desired formation
-        Eigen::Vector3d v0(FR, 0, 0);
-        Eigen::Vector3d v1(0, FR, 0);
-        Eigen::Vector3d v2(-FR, 0, 0);
-        Eigen::Vector3d v3(0, -FR, 0);
-        Eigen::Vector3d v4(FR*cos(M_PI/8), FR*sin(M_PI/8), 0);
-        Eigen::Vector3d v5(-FR*sin(M_PI/8), FR*cos(M_PI/8), 0);
-        Eigen::Vector3d v6(-FR*cos(M_PI/8), -FR*sin(M_PI/8), 0);
-        Eigen::Vector3d v7(FR*sin(M_PI/8), -FR*cos(M_PI/8), 0);
-        Eigen::Vector3d v8(FR*cos(M_PI/4), FR*sin(M_PI/4), 0);
-        Eigen::Vector3d v9(-FR*cos(M_PI/4), FR*sin(M_PI/4), 0);
-        Eigen::Vector3d v10(-FR*cos(M_PI/4), -FR*sin(M_PI/4), 0);
-        Eigen::Vector3d v11(FR*cos(M_PI/4), -FR*sin(M_PI/4), 0);
-        Eigen::Vector3d v12(FR*cos(M_PI/8), FR*sin(M_PI/8), 0);
-        Eigen::Vector3d v13(-FR*cos(M_PI/8), FR*sin(M_PI/8), 0);
-        Eigen::Vector3d v14(-FR*cos(M_PI/8), -FR*sin(M_PI/8), 0);
-        Eigen::Vector3d v15(FR*cos(M_PI/8), -FR*sin(M_PI/8), 0);
 
-        swarm_des.push_back(v0);
-        swarm_des.push_back(v1);
-        swarm_des.push_back(v2);
-        swarm_des.push_back(v3);
-        swarm_des.push_back(v4);
-        swarm_des.push_back(v5);
-        swarm_des.push_back(v6);
-        swarm_des.push_back(v7);
-        swarm_des.push_back(v8);
-        swarm_des.push_back(v9);
-        swarm_des.push_back(v10);
-        swarm_des.push_back(v11);
-        swarm_des.push_back(v12);
-        swarm_des.push_back(v13);
-        swarm_des.push_back(v14);
-        swarm_des.push_back(v15);
+        for (int i = 0; i < 16; i++)
+        {
+          Eigen::Vector3d v(FR * cos(i * M_PI * 3 / 8), FR * sin(i * M_PI * 3 / 8), 0);
+          swarm_des.push_back(v);
+        }
 
         formation_size_ = swarm_des.size();
         // construct the desired swarm graph

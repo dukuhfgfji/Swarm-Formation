@@ -23,13 +23,13 @@
     <param name="map/resolution" value="0.1"/>
     <param name="ObstacleShape/seed" value="1"/>
 
-    <param name="map/obs_num" value="160"/>
+    <param name="map/obs_num" value="60"/>
     <param name="ObstacleShape/lower_rad" value="0.5"/>
     <param name="ObstacleShape/upper_rad" value="0.5"/>
     <param name="ObstacleShape/lower_hei" value="2.0"/>
     <param name="ObstacleShape/upper_hei" value="3.0"/>
 
-    <param name="map/circle_num" value="16"/>
+    <param name="map/circle_num" value="30"/>
     <param name="ObstacleShape/radius_l" value="1.0"/>
     <param name="ObstacleShape/radius_h" value="1.2"/>
     <param name="ObstacleShape/z_l" value="0.7"/>
@@ -37,7 +37,7 @@
     <param name="ObstacleShape/theta" value="0.5"/>
 
     <param name="pub_rate" value="1.0"/>
-    <param name="min_distance" value="0.8"/>
+    <param name="min_distance" value="2.0"/>
   </node>
 
   <!-- swarm robots -->
@@ -46,13 +46,13 @@
 
       <arg name="drone_id" value="0"/>
 
-      <arg name="init_x" value="-20.0"/>
-      <arg name="init_y" value="0.0"/>
-      <arg name="init_z" value="0.0"/>
+      <arg name="init_x" value="-20.00"/>
+      <arg name="init_y" value="0.00"/>
+      <arg name="init_z" value="0.00"/>
 
-      <arg name="target_x" value="30.0"/>
-      <arg name="target_y" value="0.0"/>
-      <arg name="target_z" value="0.0"/>
+      <arg name="target_x" value="30.00"/>
+      <arg name="target_y" value="0.00"/>
+      <arg name="target_z" value="0.00"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -66,13 +66,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="1"/>
 
-      <arg name="init_x" value="-25.0"/>
-      <arg name="init_y" value="5.0"/>
-      <arg name="init_z" value="0.1"/>
+      <arg name="init_x" value="-23.09"/>
+      <arg name="init_y" value="4.62"/>
+      <arg name="init_z" value="0.10"/>
 
-      <arg name="target_x" value="25.0"/>
-      <arg name="target_y" value="5.0"/>
-      <arg name="target_z" value="0.1"/>
+      <arg name="target_x" value="26.91"/>
+      <arg name="target_y" value="4.62"/>
+      <arg name="target_z" value="0.10"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -86,13 +86,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="2"/>
 
-      <arg name="init_x" value="-30.0"/>
-      <arg name="init_y" value="0.0"/>
-      <arg name="init_z" value="0.2"/>
+      <arg name="init_x" value="-28.54"/>
+      <arg name="init_y" value="3.54"/>
+      <arg name="init_z" value="0.20"/>
 
-      <arg name="target_x" value="20.0"/>
-      <arg name="target_y" value="0.0"/>
-      <arg name="target_z" value="0.2"/>
+      <arg name="target_x" value="21.46"/>
+      <arg name="target_y" value="3.54"/>
+      <arg name="target_z" value="0.20"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -106,13 +106,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="3"/>
 
-      <arg name="init_x" value="-25.0"/>
-      <arg name="init_y" value="-5.0"/>
-      <arg name="init_z" value="0.3"/>
+      <arg name="init_x" value="-29.62"/>
+      <arg name="init_y" value="-1.91"/>
+      <arg name="init_z" value="0.30"/>
 
-      <arg name="target_x" value="25.0"/>
-      <arg name="target_y" value="-5.0"/>
-      <arg name="target_z" value="0.3"/>
+      <arg name="target_x" value="20.38"/>
+      <arg name="target_y" value="-1.91"/>
+      <arg name="target_z" value="0.30"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -126,13 +126,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="4"/>
 
-      <arg name="init_x" value="-20.4"/>
-      <arg name="init_y" value="1.9"/>
-      <arg name="init_z" value="0.4"/>
+      <arg name="init_x" value="-25.00"/>
+      <arg name="init_y" value="-5.00"/>
+      <arg name="init_z" value="0.40"/>
 
-      <arg name="target_x" value="29.6"/>
-      <arg name="target_y" value="1.9"/>
-      <arg name="target_z" value="0.4"/>
+      <arg name="target_x" value="25.00"/>
+      <arg name="target_y" value="-5.00"/>
+      <arg name="target_z" value="0.40"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -146,13 +146,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="5"/>
 
-      <arg name="init_x" value="-26.9"/>
-      <arg name="init_y" value="4.6"/>
-      <arg name="init_z" value="0.5"/>
+      <arg name="init_x" value="-20.38"/>
+      <arg name="init_y" value="-1.91"/>
+      <arg name="init_z" value="0.50"/>
 
-      <arg name="target_x" value="23.1"/>
-      <arg name="target_y" value="4.6"/>
-      <arg name="target_z" value="0.5"/>
+      <arg name="target_x" value="29.62"/>
+      <arg name="target_y" value="-1.91"/>
+      <arg name="target_z" value="0.50"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -166,13 +166,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="6"/>
 
-      <arg name="init_x" value="-29.6"/>
-      <arg name="init_y" value="-1.9"/>
-      <arg name="init_z" value="0.6"/>
+      <arg name="init_x" value="-21.46"/>
+      <arg name="init_y" value="3.54"/>
+      <arg name="init_z" value="0.60"/>
 
-      <arg name="target_x" value="20.4"/>
-      <arg name="target_y" value="-1.9"/>
-      <arg name="target_z" value="0.6"/>
+      <arg name="target_x" value="28.54"/>
+      <arg name="target_y" value="3.54"/>
+      <arg name="target_z" value="0.60"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -185,13 +185,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="7"/>
 
-      <arg name="init_x" value="-23.1"/>
-      <arg name="init_y" value="-4.6"/>
-      <arg name="init_z" value="0.7"/>
+      <arg name="init_x" value="-26.91"/>
+      <arg name="init_y" value="4.62"/>
+      <arg name="init_z" value="0.70"/>
 
-      <arg name="target_x" value="26.9"/>
-      <arg name="target_y" value="-4.6"/>
-      <arg name="target_z" value="0.7"/>
+      <arg name="target_x" value="23.09"/>
+      <arg name="target_y" value="4.62"/>
+      <arg name="target_z" value="0.70"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -204,13 +204,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="8"/>
 
-      <arg name="init_x" value="-21.5"/>
-      <arg name="init_y" value="3.5"/>
-      <arg name="init_z" value="0.8"/>
+      <arg name="init_x" value="-30.00"/>
+      <arg name="init_y" value="0.00"/>
+      <arg name="init_z" value="0.80"/>
 
-      <arg name="target_x" value="28.5"/>
-      <arg name="target_y" value="3.5"/>
-      <arg name="target_z" value="0.8"/>
+      <arg name="target_x" value="20.00"/>
+      <arg name="target_y" value="0.00"/>
+      <arg name="target_z" value="0.80"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -223,13 +223,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="9"/>
 
-      <arg name="init_x" value="-28.5"/>
-      <arg name="init_y" value="3.5"/>
-      <arg name="init_z" value="0.9"/>
+      <arg name="init_x" value="-26.91"/>
+      <arg name="init_y" value="-4.62"/>
+      <arg name="init_z" value="0.90"/>
 
-      <arg name="target_x" value="21.5"/>
-      <arg name="target_y" value="3.5"/>
-      <arg name="target_z" value="0.9"/>
+      <arg name="target_x" value="23.09"/>
+      <arg name="target_y" value="-4.62"/>
+      <arg name="target_z" value="0.90"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -242,13 +242,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="10"/>
 
-      <arg name="init_x" value="-28.5"/>
-      <arg name="init_y" value="-3.5"/>
-      <arg name="init_z" value="1.0"/>
+      <arg name="init_x" value="-21.46"/>
+      <arg name="init_y" value="-3.54"/>
+      <arg name="init_z" value="1.00"/>
 
-      <arg name="target_x" value="21.5"/>
-      <arg name="target_y" value="-3.5"/>
-      <arg name="target_z" value="1.0"/>
+      <arg name="target_x" value="28.54"/>
+      <arg name="target_y" value="-3.54"/>
+      <arg name="target_z" value="1.00"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -261,13 +261,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="11"/>
 
-      <arg name="init_x" value="-21.5"/>
-      <arg name="init_y" value="-3.5"/>
-      <arg name="init_z" value="1.1"/>
+      <arg name="init_x" value="-20.38"/>
+      <arg name="init_y" value="1.91"/>
+      <arg name="init_z" value="1.10"/>
 
-      <arg name="target_x" value="28.5"/>
-      <arg name="target_y" value="-3.5"/>
-      <arg name="target_z" value="1.1"/>
+      <arg name="target_x" value="29.62"/>
+      <arg name="target_y" value="1.91"/>
+      <arg name="target_z" value="1.10"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -280,13 +280,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="12"/>
 
-      <arg name="init_x" value="-23.1"/>
-      <arg name="init_y" value="4.6"/>
-      <arg name="init_z" value="1.2"/>
+      <arg name="init_x" value="-25.00"/>
+      <arg name="init_y" value="5.00"/>
+      <arg name="init_z" value="1.20"/>
 
-      <arg name="target_x" value="26.9"/>
-      <arg name="target_y" value="4.6"/>
-      <arg name="target_z" value="1.2"/>
+      <arg name="target_x" value="25.00"/>
+      <arg name="target_y" value="5.00"/>
+      <arg name="target_z" value="1.20"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -299,13 +299,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="13"/>
 
-      <arg name="init_x" value="-29.6"/>
-      <arg name="init_y" value="1.9"/>
-      <arg name="init_z" value="1.3"/>
+      <arg name="init_x" value="-29.62"/>
+      <arg name="init_y" value="1.91"/>
+      <arg name="init_z" value="1.30"/>
 
-      <arg name="target_x" value="20.4"/>
-      <arg name="target_y" value="1.9"/>
-      <arg name="target_z" value="1.3"/>
+      <arg name="target_x" value="20.38"/>
+      <arg name="target_y" value="1.91"/>
+      <arg name="target_z" value="1.30"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -318,13 +318,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="14"/>
 
-      <arg name="init_x" value="-26.9"/>
-      <arg name="init_y" value="-4.6"/>
-      <arg name="init_z" value="1.4"/>
+      <arg name="init_x" value="-28.54"/>
+      <arg name="init_y" value="-3.54"/>
+      <arg name="init_z" value="1.40"/>
 
-      <arg name="target_x" value="23.1"/>
-      <arg name="target_y" value="-4.6"/>
-      <arg name="target_z" value="1.4"/>
+      <arg name="target_x" value="21.46"/>
+      <arg name="target_y" value="-3.54"/>
+      <arg name="target_z" value="1.40"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>
@@ -337,13 +337,13 @@
     <include file="$(find ego_planner)/launch/run_in_sim.launch">
       <arg name="drone_id" value="15"/>
 
-      <arg name="init_x" value="-20.4"/>
-      <arg name="init_y" value="-1.9"/>
-      <arg name="init_z" value="1.5"/>
+      <arg name="init_x" value="-23.09"/>
+      <arg name="init_y" value="-4.62"/>
+      <arg name="init_z" value="1.50"/>
 
-      <arg name="target_x" value="29.6"/>
-      <arg name="target_y" value="-1.9"/>
-      <arg name="target_z" value="1.5"/>
+      <arg name="target_x" value="26.91"/>
+      <arg name="target_y" value="-4.62"/>
+      <arg name="target_z" value="1.50"/>
 
       <arg name="map_size_x" value="$(arg map_size_x)"/>
       <arg name="map_size_y" value="$(arg map_size_y)"/>

@@ -14,8 +14,8 @@ namespace ego_planner
     optimal_list_pub = nh.advertise<visualization_msgs::Marker>("optimal_list", 2);
     failed_list_pub = nh.advertise<visualization_msgs::Marker>("failed_list", 2);
     a_star_list_pub = nh.advertise<visualization_msgs::Marker>("a_star_list", 20);
-    init_list_debug_pub = nh.advertise<visualization_msgs::Marker>("init_debug_list",2);
-    
+    init_list_debug_pub = nh.advertise<visualization_msgs::Marker>("init_debug_list", 2);
+
     intermediate_pt0_pub = nh.advertise<visualization_msgs::Marker>("pt0_dur_opt", 10);
     intermediate_grad0_pub = nh.advertise<visualization_msgs::MarkerArray>("grad0_dur_opt", 10);
     intermediate_pt1_pub = nh.advertise<visualization_msgs::Marker>("pt1_dur_opt", 10);
@@ -25,17 +25,17 @@ namespace ego_planner
     intermediate_grad_feas_pub = nh.advertise<visualization_msgs::MarkerArray>("feas_grad_dur_opt", 10);
     intermediate_grad_swarm_pub = nh.advertise<visualization_msgs::MarkerArray>("swarm_grad_dur_opt", 10);
 
-    swarm_formation_visual_pub  = nh.advertise<visualization_msgs::MarkerArray>("swarm_graph_visual", 10);
-    
+    swarm_formation_visual_pub = nh.advertise<visualization_msgs::MarkerArray>("swarm_graph_visual", 10);
+
     t_init = ros::Time::now();
-    
+
     nh.param("manager/drone_id", drone_id_, -1);
     nh.param("optimization/formation_type", formation_type_, -1);
     initSwarmGraphVisual();
     swarm_odom.resize(formation_size_);
-    for (int i=0; i<formation_size_; i++)
+    for (int i = 0; i < formation_size_; i++)
       swarm_odom[i] = Eigen::Vector3d::Zero();
-    
+
     drone_0_odom_sub_ = nh.subscribe("/drone_0/visual_slam/odom", 1, &PlanningVisualization::drone_0_odomeCallback, this);
     drone_1_odom_sub_ = nh.subscribe("/drone_1/visual_slam/odom", 1, &PlanningVisualization::drone_1_odomeCallback, this);
     drone_2_odom_sub_ = nh.subscribe("/drone_2/visual_slam/odom", 1, &PlanningVisualization::drone_2_odomeCallback, this);
@@ -52,26 +52,28 @@ namespace ego_planner
     drone_13_odom_sub_ = nh.subscribe("/drone_13/visual_slam/odom", 1, &PlanningVisualization::drone_13_odomeCallback, this);
     drone_14_odom_sub_ = nh.subscribe("/drone_14/visual_slam/odom", 1, &PlanningVisualization::drone_14_odomeCallback, this);
     drone_15_odom_sub_ = nh.subscribe("/drone_15/visual_slam/odom", 1, &PlanningVisualization::drone_15_odomeCallback, this);
-    
-    
-    if (drone_id_ == 0){
+
+    if (drone_id_ == 0)
+    {
       swarm_graph_visual_timer_ = nh.createTimer(ros::Duration(0.01), &PlanningVisualization::swarmGraphVisulCallback, this);
     }
   }
-  
-  void PlanningVisualization::swarmGraphVisulCallback(const ros::TimerEvent &e){
-    if (line_size_==0)
+
+  void PlanningVisualization::swarmGraphVisulCallback(const ros::TimerEvent &e)
+  {
+    if (line_size_ == 0)
       return;
-    
+
     visualization_msgs::MarkerArray lines;
-    for (int i=0; i<line_size_; i++){
+    for (int i = 0; i < line_size_; i++)
+    {
       visualization_msgs::Marker line_strip;
       line_strip.header.frame_id = "world";
       line_strip.header.stamp = ros::Time::now();
       line_strip.type = visualization_msgs::Marker::LINE_STRIP;
       line_strip.action = visualization_msgs::Marker::ADD;
       line_strip.id = i;
-      
+
       // line_strip.scale.x = 0.05;
       // line_strip.color.r = 0.0;
       // line_strip.color.g = 0.5;
@@ -92,7 +94,7 @@ namespace ego_planner
       q.x = swarm_odom[line_end_[i]](0);
       q.y = swarm_odom[line_end_[i]](1);
       q.z = swarm_odom[line_end_[i]](2);
-      line_strip.points.push_back(p);        
+      line_strip.points.push_back(p);
       line_strip.points.push_back(q);
 
       lines.markers.push_back(line_strip);
@@ -100,211 +102,230 @@ namespace ego_planner
     swarm_formation_visual_pub.publish(lines);
   }
 
-  void PlanningVisualization::benchmarkCallback(const ros::TimerEvent &e){
-       
-       t_record = ros::Time::now();
-       double t_current = (t_record - t_init).toSec();
-       odom_csv << t_current << ",";
-       for( auto odom: swarm_odom){
-         odom_csv << odom(0) << "," << odom(1) << ", ";
-       }
-       odom_csv << std::endl;
+  void PlanningVisualization::benchmarkCallback(const ros::TimerEvent &e)
+  {
+
+    t_record = ros::Time::now();
+    double t_current = (t_record - t_init).toSec();
+    odom_csv << t_current << ",";
+    for (auto odom : swarm_odom)
+    {
+      odom_csv << odom(0) << "," << odom(1) << ", ";
+    }
+    odom_csv << std::endl;
   }
 
-  void PlanningVisualization::drone_0_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=0 )
+  void PlanningVisualization::drone_0_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 0)
       return;
-    
+
     swarm_odom[0] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_1_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=1 )
+  void PlanningVisualization::drone_1_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 1)
       return;
-    
+
     swarm_odom[1] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_2_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=2 )
+  void PlanningVisualization::drone_2_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 2)
       return;
-    
+
     swarm_odom[2] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_3_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=3 )
+  void PlanningVisualization::drone_3_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 3)
       return;
-    
+
     swarm_odom[3] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_4_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=4 )
+  void PlanningVisualization::drone_4_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 4)
       return;
-    
+
     swarm_odom[4] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_5_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=5 )
+  void PlanningVisualization::drone_5_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 5)
       return;
-    
+
     swarm_odom[5] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_6_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=5 )
+  void PlanningVisualization::drone_6_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 5)
       return;
-    
+
     swarm_odom[6] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_7_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=7 )
+  void PlanningVisualization::drone_7_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 7)
       return;
-    
+
     swarm_odom[7] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_8_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=8 )
+  void PlanningVisualization::drone_8_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 8)
       return;
-    
+
     swarm_odom[8] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_9_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=9 )
+  void PlanningVisualization::drone_9_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 9)
       return;
-    
+
     swarm_odom[9] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_10_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=10 )
+  void PlanningVisualization::drone_10_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 10)
       return;
-    
+
     swarm_odom[10] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_11_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=11 )
+  void PlanningVisualization::drone_11_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 11)
       return;
-    
+
     swarm_odom[11] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_12_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=12 )
+  void PlanningVisualization::drone_12_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 12)
       return;
-    
+
     swarm_odom[12] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_13_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=13 )
+  void PlanningVisualization::drone_13_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 13)
       return;
-    
+
     swarm_odom[13] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_14_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=14 )
+  void PlanningVisualization::drone_14_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 14)
       return;
-    
+
     swarm_odom[14] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::drone_15_odomeCallback(const nav_msgs::OdometryConstPtr &msg){
-    if (formation_size_ <=15 )
+  void PlanningVisualization::drone_15_odomeCallback(const nav_msgs::OdometryConstPtr &msg)
+  {
+    if (formation_size_ <= 15)
       return;
-    
+
     swarm_odom[15] << msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z;
   }
 
-  void PlanningVisualization::initSwarmGraphVisual(){
+  void PlanningVisualization::initSwarmGraphVisual()
+  {
     switch (formation_type_)
     {
     case FORMATION_TYPE::NONE_FORMATION:
     {
       formation_size_ = 0;
-      line_size_      = 0;
+      line_size_ = 0;
       break;
     }
 
     case FORMATION_TYPE::REGULAR_HEXAGON:
     {
       formation_size_ = 7;
-      line_size_      = 12;
+      line_size_ = 12;
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6};
-      line_end_   = {1, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 1};
-      
+      line_end_ = {1, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 1};
+
       break;
     }
 
     case FORMATION_TYPE::REGULAR_TWO:
     {
       formation_size_ = 2;
-      line_size_      = 2;
+      line_size_ = 2;
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 1};
-      line_end_   = {1, 0};
-      
+      line_end_ = {1, 0};
+
       break;
     }
 
     case FORMATION_TYPE::REGULAR_THREE:
     {
       formation_size_ = 3;
-      line_size_      = 3;
+      line_size_ = 3;
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2};
-      line_end_   = {1, 2, 0};
-      
+      line_end_ = {1, 2, 0};
+
       break;
     }
 
     case FORMATION_TYPE::REGULAR_FOUR:
     {
       formation_size_ = 4;
-      line_size_      = 4;
+      line_size_ = 4;
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2, 3};
-      line_end_   = {1, 2, 3, 0};
-      
+      line_end_ = {1, 2, 3, 0};
+
       break;
     }
 
     case FORMATION_TYPE::REGULAR_ELEVEN:
     {
       formation_size_ = 11;
-      line_size_      = 11;
+      line_size_ = 11;
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-      line_end_   = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0};
-      
+      line_end_ = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0};
+
       break;
     }
 
     case FORMATION_TYPE::REGULAR_SIXTEEN:
     {
       formation_size_ = 16;
-      line_size_      = 16;
+      line_size_ = 16;
       line_begin_.resize(line_size_);
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-      line_end_   = {1, 2, 3, 0, 5, 6, 7, 4, 9, 10, 11, 8, 13, 14, 15, 12};
-      
+      line_end_ = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+
       break;
     }
-    
+
     default:
       break;
     }
@@ -312,7 +333,7 @@ namespace ego_planner
 
   // // real ids used: {id, id+1000}
   void PlanningVisualization::displayMarkerList(ros::Publisher &pub, const vector<Eigen::Vector3d> &list, double scale,
-                                                Eigen::Vector4d color, int id, bool show_sphere /* = true */ )
+                                                Eigen::Vector4d color, int id, bool show_sphere /* = true */)
   {
     visualization_msgs::Marker sphere, line_strip;
     sphere.header.frame_id = line_strip.header.frame_id = "world";
@@ -338,10 +359,12 @@ namespace ego_planner
       pt.x = list[i](0);
       pt.y = list[i](1);
       pt.z = list[i](2);
-      if (show_sphere) sphere.points.push_back(pt);
+      if (show_sphere)
+        sphere.points.push_back(pt);
       line_strip.points.push_back(pt);
     }
-    if (show_sphere) pub.publish(sphere);
+    if (show_sphere)
+      pub.publish(sphere);
     pub.publish(line_strip);
   }
 
@@ -469,7 +492,7 @@ namespace ego_planner
 
     static int last_nums = 0;
 
-    for ( int id=0; id<last_nums; id++ )
+    for (int id = 0; id < last_nums; id++)
     {
       Eigen::Vector4d color(0, 0, 0, 0);
       vector<Eigen::Vector3d> blank;
@@ -478,14 +501,13 @@ namespace ego_planner
     }
     last_nums = 0;
 
-    for ( int id=0; id<(int)init_trajs.size(); id++ )
+    for (int id = 0; id < (int)init_trajs.size(); id++)
     {
       Eigen::Vector4d color(0, 0, 1, 0.7);
       displayMarkerList(init_list_pub, init_trajs[id], scale, color, id, false);
       ros::Duration(0.001).sleep();
       last_nums++;
     }
-
   }
 
   void PlanningVisualization::displayInitPathList(vector<Eigen::Vector3d> init_pts, const double scale, int id)
@@ -570,7 +592,7 @@ namespace ego_planner
       {
         list.push_back(pt);
       }
-      //Eigen::Vector4d color(0.5,0.5,0,1);
+      // Eigen::Vector4d color(0.5,0.5,0,1);
       displayMarkerList(a_star_list_pub, list, scale, color, id + i); // real ids used: [ id ~ id+a_star_paths.size() ]
       i++;
     }
@@ -591,16 +613,16 @@ namespace ego_planner
   {
     std::vector<Eigen::Vector3d> pts_;
     pts_.reserve(pts.cols());
-    for ( int i=0; i<pts.cols(); i++ )
+    for (int i = 0; i < pts.cols(); i++)
     {
       pts_.emplace_back(pts.col(i));
     }
 
-    if ( !type.compare("0") )
+    if (!type.compare("0"))
     {
       displayMarkerList(intermediate_pt0_pub, pts_, 0.1, color, id);
     }
-    else if ( !type.compare("1") )
+    else if (!type.compare("1"))
     {
       displayMarkerList(intermediate_pt1_pub, pts_, 0.1, color, id);
     }
@@ -608,16 +630,16 @@ namespace ego_planner
 
   void PlanningVisualization::displayIntermediateGrad(std::string type, Eigen::MatrixXd &pts, Eigen::MatrixXd &grad, int id, Eigen::Vector4d color)
   {
-    if ( pts.cols() != grad.cols() )
+    if (pts.cols() != grad.cols())
     {
       ROS_ERROR("pts.cols() != grad.cols()");
       return;
     }
     std::vector<Eigen::Vector3d> arrow_;
-    arrow_.reserve(pts.cols()*2);
-    if ( !type.compare("swarm") )
+    arrow_.reserve(pts.cols() * 2);
+    if (!type.compare("swarm"))
     {
-      for ( int i=0; i<pts.cols(); i++ )
+      for (int i = 0; i < pts.cols(); i++)
       {
         arrow_.emplace_back(pts.col(i));
         arrow_.emplace_back(grad.col(i));
@@ -625,39 +647,37 @@ namespace ego_planner
     }
     else
     {
-      for ( int i=0; i<pts.cols(); i++ )
+      for (int i = 0; i < pts.cols(); i++)
       {
         arrow_.emplace_back(pts.col(i));
-        arrow_.emplace_back(pts.col(i)+grad.col(i));
+        arrow_.emplace_back(pts.col(i) + grad.col(i));
       }
     }
-    
 
-    if ( !type.compare("grad0") )
+    if (!type.compare("grad0"))
     {
       displayArrowList(intermediate_grad0_pub, arrow_, 0.05, color, id);
     }
-    else if ( !type.compare("grad1") )
+    else if (!type.compare("grad1"))
     {
       displayArrowList(intermediate_grad1_pub, arrow_, 0.05, color, id);
     }
-    else if ( !type.compare("dist") )
+    else if (!type.compare("dist"))
     {
       displayArrowList(intermediate_grad_dist_pub, arrow_, 0.05, color, id);
     }
-    else if ( !type.compare("smoo") )
+    else if (!type.compare("smoo"))
     {
       displayArrowList(intermediate_grad_smoo_pub, arrow_, 0.05, color, id);
     }
-    else if ( !type.compare("feas") )
+    else if (!type.compare("feas"))
     {
       displayArrowList(intermediate_grad_feas_pub, arrow_, 0.05, color, id);
     }
-    else if ( !type.compare("swarm") )
+    else if (!type.compare("swarm"))
     {
       displayArrowList(intermediate_grad_swarm_pub, arrow_, 0.02, color, id);
     }
-    
   }
 
   // PlanningVisualization::
