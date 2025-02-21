@@ -245,8 +245,8 @@ main(int argc, char** argv)
   odom_msg.header.frame_id = "/world";
   odom_msg.child_frame_id  = "/" + quad_name;
 
-  sensor_msgs::Imu imu;
-  imu.header.frame_id = "/simulator";
+  sensor_msgs::Imu imu_msg;
+  imu_msg.header.frame_id = "/simulator";
 
   /*
   command.force[0] = 0;
@@ -289,11 +289,12 @@ main(int argc, char** argv)
     {
       next_odom_pub_time += odom_pub_duration;
       odom_msg.header.stamp = tnow;
+      imu_msg.header.stamp  = tnow;
       state                 = quad.getState();
       stateToOdomMsg(state, odom_msg);
-      quadToImuMsg(quad, imu);
+      quadToImuMsg(quad, imu_msg);
       odom_pub.publish(odom_msg);
-      imu_pub.publish(imu);
+      imu_pub.publish(imu_msg);
     }
 
     r.sleep();
