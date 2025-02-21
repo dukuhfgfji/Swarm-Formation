@@ -1,0 +1,241 @@
+<launch>
+  <arg name="swarm_num" default="10"/>
+
+  <arg name="map_size_x" value="70.0"/>
+  <arg name="map_size_y" value="30.0"/>
+  <arg name="map_size_z" value=" 3.0"/>
+
+  <arg name="odom_topic" value="visual_slam/odom" />
+
+  <arg name="formation_type" value="10" />
+
+  <!-- swarm topic transmitter bridge-->
+  <include file="$(find swarm_bridge)/launch/bridge.launch">
+    <arg name="drone_id" value="999"/>
+    <arg name="broadcast_ip" value="127.0.0.255"/>
+  </include>
+
+  <!-- map -->
+  <node pkg ="map_generator" name ="random_forest" type ="random_forest" output = "screen">
+    <param name="map/x_size" value="35" />
+    <param name="map/y_size" value="25" />
+    <param name="map/z_size" value="3.0" />
+    <param name="map/resolution" value="0.1"/>
+    <param name="ObstacleShape/seed" value="1"/>
+
+    <param name="map/obs_num" value="80"/>
+    <param name="ObstacleShape/lower_rad" value="0.5"/>
+    <param name="ObstacleShape/upper_rad" value="0.5"/>
+    <param name="ObstacleShape/lower_hei" value="2.0"/>
+    <param name="ObstacleShape/upper_hei" value="3.0"/>
+
+    <param name="map/circle_num" value="0"/>
+    <param name="ObstacleShape/radius_l" value="1.0"/>
+    <param name="ObstacleShape/radius_h" value="1.2"/>
+    <param name="ObstacleShape/z_l" value="0.7"/>
+    <param name="ObstacleShape/z_h" value="3.0"/>
+    <param name="ObstacleShape/theta" value="0.5"/>
+
+    <param name="pub_rate" value="1.0"/>
+    <param name="min_distance" value="2.0"/>
+  </node>
+
+  <!-- swarm robots -->
+  <group ns="drone_0" if="$(eval swarm_num>0)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+
+      <arg name="drone_id" value="0"/>
+
+      <arg name="init_x" value="-20.00"/>
+      <arg name="init_y" value="0.00"/>
+      <arg name="init_z" value="0.00"/>
+
+      <arg name="target_x" value="30.00"/>
+      <arg name="target_y" value="0.00"/>
+      <arg name="target_z" value="0.00"/>
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+
+    </include>
+  </group>
+
+  <group ns="drone_1" if="$(eval swarm_num>1)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="1"/>
+
+      <arg name="init_x" value="-20.954915028125264" />
+      <arg name="init_y" value="2.938926261462366" />
+      <arg name="init_z" value="0.1" />
+
+      <arg name="target_x" value="29.045084971874736" />
+      <arg name="target_y" value="2.938926261462366" />
+      <arg name="target_z" value="0.1" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+
+    </include>
+  </group>
+
+  <group ns="drone_2" if="$(eval swarm_num>2)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="2"/>
+
+      <arg name="init_x" value="-23.454915028125264" />
+      <arg name="init_y" value="4.755282581475767" />
+      <arg name="init_z" value="0.2" />
+
+      <arg name="target_x" value="26.545084971874736" />
+      <arg name="target_y" value="4.755282581475767" />
+      <arg name="target_z" value="0.2" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+
+    </include>
+  </group>
+
+  <group ns="drone_3" if="$(eval swarm_num>3)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="3"/>
+
+      <arg name="init_x" value="-26.545084971874736" />
+      <arg name="init_y" value="4.755282581475768" />
+      <arg name="init_z" value="0.30000000000000004" />
+
+      <arg name="target_x" value="23.454915028125264" />
+      <arg name="target_y" value="4.755282581475768" />
+      <arg name="target_z" value="0.30000000000000004" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+
+    </include>
+  </group>
+
+  <group ns="drone_4" if="$(eval swarm_num>4)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="4"/>
+
+      <arg name="init_x" value="-29.045084971874736" />
+      <arg name="init_y" value="2.9389262614623664" />
+      <arg name="init_z" value="0.4" />
+
+      <arg name="target_x" value="20.954915028125264" />
+      <arg name="target_y" value="2.9389262614623664" />
+      <arg name="target_z" value="0.4" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+
+    </include>
+  </group>
+
+  <group ns="drone_5" if="$(eval swarm_num>5)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="5"/>
+
+      <arg name="init_x" value="-30.0" />
+      <arg name="init_y" value="6.123233995736766e-16" />
+      <arg name="init_z" value="0.5" />
+
+      <arg name="target_x" value="20.0" />
+      <arg name="target_y" value="6.123233995736766e-16" />
+      <arg name="target_z" value="0.5" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+
+    </include>
+  </group>
+
+  <group ns="drone_6" if="$(eval swarm_num>6)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="6"/>
+
+      <arg name="init_x" value="-29.045084971874736" />
+      <arg name="init_y" value="-2.938926261462365" />
+      <arg name="init_z" value="0.6000000000000001" />
+
+      <arg name="target_x" value="20.954915028125264" />
+      <arg name="target_y" value="-2.938926261462365" />
+      <arg name="target_z" value="0.6000000000000001" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+    </include>
+  </group>
+
+  <group ns="drone_7" if="$(eval swarm_num>7)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="7"/>
+
+      <arg name="init_x" value="-26.545084971874736" />
+      <arg name="init_y" value="-4.755282581475767" />
+      <arg name="init_z" value="0.7000000000000001" />
+
+      <arg name="target_x" value="23.454915028125264" />
+      <arg name="target_y" value="-4.755282581475767" />
+      <arg name="target_z" value="0.7000000000000001" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+    </include>
+  </group>
+
+  <group ns="drone_8" if="$(eval swarm_num>8)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="8"/>
+
+      <arg name="init_x" value="-23.454915028125264" />
+      <arg name="init_y" value="-4.755282581475768" />
+      <arg name="init_z" value="0.8" />
+
+      <arg name="target_x" value="26.545084971874736" />
+      <arg name="target_y" value="-4.755282581475768" />
+      <arg name="target_z" value="0.8" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+    </include>
+  </group>
+
+  <group ns="drone_9" if="$(eval swarm_num>9)">
+    <include file="$(find ego_planner)/launch/run_in_sim.launch">
+      <arg name="drone_id" value="9"/>
+
+      <arg name="init_x" value="-20.954915028125264" />
+      <arg name="init_y" value="-2.938926261462367" />
+      <arg name="init_z" value="0.9" />
+
+      <arg name="target_x" value="29.045084971874736" />
+      <arg name="target_y" value="-2.938926261462367" />
+      <arg name="target_z" value="0.9" />
+
+      <arg name="map_size_x" value="$(arg map_size_x)"/>
+      <arg name="map_size_y" value="$(arg map_size_y)"/>
+      <arg name="map_size_z" value="$(arg map_size_z)"/>
+      <arg name="odom_topic" value="$(arg odom_topic)"/>
+    </include>
+  </group>
+
+</launch>

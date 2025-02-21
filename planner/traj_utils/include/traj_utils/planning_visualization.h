@@ -42,13 +42,13 @@ namespace ego_planner
 
     enum FORMATION_TYPE
     {
-      NONE_FORMATION        = 0,
-      REGULAR_HEXAGON       = 1,
-      REGULAR_TWO           = 2,
-      REGULAR_THREE         = 3,
-      REGULAR_FOUR          = 4,
-      REGULAR_ELEVEN        = 11,
-      REGULAR_SIXTEEN       = 16
+      NONE_FORMATION = 0,
+      REGULAR_TWO = 2,
+      REGULAR_THREE = 3,
+      REGULAR_FOUR = 4,
+      REGULAR_TEN = 10,
+      REGULAR_ELEVEN = 11,
+      REGULAR_SIXTEEN = 16
     };
 
     int drone_id_;
@@ -56,8 +56,8 @@ namespace ego_planner
     int formation_size_, line_size_;
     std::vector<int> line_begin_, line_end_;
     bool start_visual_;
-    
-    ros::Subscriber drone_0_odom_sub_, drone_1_odom_sub_, drone_2_odom_sub_, drone_3_odom_sub_; 
+
+    ros::Subscriber drone_0_odom_sub_, drone_1_odom_sub_, drone_2_odom_sub_, drone_3_odom_sub_;
     ros::Subscriber drone_4_odom_sub_, drone_5_odom_sub_, drone_6_odom_sub_, drone_7_odom_sub_;
     ros::Subscriber drone_8_odom_sub_, drone_9_odom_sub_, drone_10_odom_sub_, drone_11_odom_sub_;
     ros::Subscriber drone_12_odom_sub_, drone_13_odom_sub_, drone_14_odom_sub_, drone_15_odom_sub_;
@@ -87,16 +87,19 @@ namespace ego_planner
     void drone_13_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
     void drone_14_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
     void drone_15_odomeCallback(const nav_msgs::OdometryConstPtr &msg);
-    
+
     void swarmGraphVisulCallback(const ros::TimerEvent &e);
     void benchmarkCallback(const ros::TimerEvent &e);
 
   public:
-
     PlanningVisualization(/* args */) {}
-    ~PlanningVisualization() { 
-      if (drone_id_ == 1){ odom_csv.close(); }
-     }
+    ~PlanningVisualization()
+    {
+      if (drone_id_ == 1)
+      {
+        odom_csv.close();
+      }
+    }
 
     PlanningVisualization(ros::NodeHandle &nh);
 
@@ -105,7 +108,7 @@ namespace ego_planner
     void initSwarmGraphVisual();
 
     void displayMarkerList(ros::Publisher &pub, const vector<Eigen::Vector3d> &list, double scale,
-                           Eigen::Vector4d color, int id,  bool show_sphere = true);
+                           Eigen::Vector4d color, int id, bool show_sphere = true);
     void generatePathDisplayArray(visualization_msgs::MarkerArray &array,
                                   const vector<Eigen::Vector3d> &list, double scale, Eigen::Vector4d color, int id);
     void generateArrowDisplayArray(visualization_msgs::MarkerArray &array,

@@ -254,18 +254,6 @@ namespace ego_planner
       break;
     }
 
-    case FORMATION_TYPE::REGULAR_HEXAGON:
-    {
-      formation_size_ = 7;
-      line_size_ = 12;
-      line_begin_.resize(line_size_);
-      line_end_.resize(line_size_);
-      line_begin_ = {0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6};
-      line_end_ = {1, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 1};
-
-      break;
-    }
-
     case FORMATION_TYPE::REGULAR_TWO:
     {
       formation_size_ = 2;
@@ -298,6 +286,18 @@ namespace ego_planner
       line_end_.resize(line_size_);
       line_begin_ = {0, 1, 2, 3};
       line_end_ = {1, 2, 3, 0};
+
+      break;
+    }
+
+    case FORMATION_TYPE::REGULAR_TEN:
+    {
+      formation_size_ = 10;
+      line_size_ = 10;
+      line_begin_.resize(line_size_);
+      line_end_.resize(line_size_);
+      line_begin_ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+      line_end_ = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
       break;
     }

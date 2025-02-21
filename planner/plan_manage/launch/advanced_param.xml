@@ -65,7 +65,8 @@
     <remap from="~grid_map/pose"   to = "$(arg camera_pose_topic)"/> 
     <remap from="~grid_map/depth" to = "$(arg depth_topic)"/>
     
-   <rosparam file="$(find ego_planner)/config/normal_hexagon.yaml"/>
+    <rosparam file="$(find ego_planner)/config/normal_decagon.yaml"/>
+    <!-- <rosparam file="$(find ego_planner)/config/normal_hexagon.yaml"/> -->
 
     <!-- planning fsm -->
     <param name="fsm/flight_type"             value="$(arg flight_type)" type="int"/>
