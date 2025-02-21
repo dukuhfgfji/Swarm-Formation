@@ -31,7 +31,7 @@
         <param name="so3_control/init_state_x" value="$(arg init_x_)"/>
         <param name="so3_control/init_state_y" value="$(arg init_y_)"/>
         <param name="so3_control/init_state_z" value="$(arg init_z_)"/>
-        <remap from="~odom" to="visual_slam/odom"/>
+        <remap from="~odom" to="$(arg odometry_topic)"/>
         <remap from="~position_cmd" to="planning/pos_cmd"/>
         <remap from="~motors" to="motors"/>
         <remap from="~corrections" to="corrections"/>
@@ -76,7 +76,7 @@
         <param name="map/z_size"     value="$(arg map_size_z_)"/>
 
         <remap from="~global_map" to="/map_generator/global_cloud"/>
-        <remap from="~odometry"   to="$(arg odometry_topic)"/>
+        <remap from="~odometry"   to="visual_slam/odom"/>
         <remap from="~pcl_render_node/cloud"   to="pcl_render_node/cloud"/>
   </node>
 

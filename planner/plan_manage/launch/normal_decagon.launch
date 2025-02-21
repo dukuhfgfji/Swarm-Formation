@@ -5,7 +5,7 @@
   <arg name="map_size_y" value="30.0"/>
   <arg name="map_size_z" value=" 3.0"/>
 
-  <arg name="odom_topic" value="visual_slam/odom" />
+  <arg name="odom_topic" value="ekf/odom" />
 
   <arg name="formation_type" value="10" />
 
